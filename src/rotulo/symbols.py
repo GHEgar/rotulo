@@ -42,11 +42,15 @@ def add_symbols(ctx: Context) -> None:
 
     start = (amp * 0.98, 0.0)
     leg, leg_d = on(loop, 215), clockwise(loop, 215)
-    leg_k = math.dist(start, leg) * 0.55
+    leg_k = math.dist(start, leg) * 0.35
+    chord = (leg[0] - start[0], leg[1] - start[1])
+    chord_len = math.hypot(*chord)
+    down = (-chord[1] / chord_len, chord[0] / chord_len)
+    sag = chord_len * 0.11
     w0, w0_d, w1, w1_d = on(loop, -55), clockwise(loop, -55), on(bowl, 120), clockwise(bowl, 120)
     waist_k = math.dist(w0, w1) * 0.4
-    arm0, tip = on(bowl, 360), (amp * 1.0, cap * 0.48)
-    arm_k = math.dist(arm0, tip) * 0.55
+    arm0, arm0_d, tip = on(bowl, 335), clockwise(bowl, 335), (amp * 1.0, cap * 0.52)
+    arm_k = math.dist(arm0, tip) * 0.4
     d(
         "&",
         amp,
@@ -56,8 +60,8 @@ def add_symbols(ctx: Context) -> None:
             pen()
             .m(*start)
             .c(
-                start[0] - amp * 0.4,
-                start[1] + cap * 0.01,
+                start[0] + chord[0] / 3 + down[0] * sag,
+                start[1] + chord[1] / 3 + down[1] * sag,
                 leg[0] - leg_d[0] * leg_k,
                 leg[1] - leg_d[1] * leg_k,
                 *leg,
@@ -70,8 +74,14 @@ def add_symbols(ctx: Context) -> None:
                 w1[1] + w1_d[1] * waist_k,
                 *w1,
             )
-            .a(*bowl, 120, 360)
-            .c(arm0[0], arm0[1] + arm_k, tip[0] - arm_k, tip[1] - arm_k * 0.1, *tip)
+            .a(*bowl, 120, 335)
+            .c(
+                arm0[0] - arm0_d[0] * arm_k,
+                arm0[1] - arm0_d[1] * arm_k,
+                tip[0] - 0.6 * arm_k,
+                tip[1] - 0.8 * arm_k,
+                *tip,
+            )
         ],
     )
     atw, atc, atoc = cap * 0.92, cap * 0.32, cap * 0.32
