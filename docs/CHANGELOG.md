@@ -3,6 +3,23 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado con
 [SemVer](https://semver.org/lang/es/).
 
+## [0.1.1] - 2026-10-15
+
+### Cambiado
+
+- El detalle usa por defecto `#3d8a8f`, legible sobre fondo claro y oscuro; antes `#2f5d62` se perdía
+  en fondos oscuros.
+- La hoja de estilos activa la paleta oscura con `prefers-color-scheme: dark`, para `Rotulo` y
+  `Rotulo Lectura` con un solo `--rotulo-dark`.
+
+### Agregado
+
+- Declaración de tipos en el paquete npm: `import '@npmegar/rotulo'` ya no pide un `declare module`.
+
+### Eliminado
+
+- `--rotulo-lectura-dark`: lo cubre `--rotulo-dark`.
+
 ## [0.1.0] - 2026-10-15
 
 ### Agregado

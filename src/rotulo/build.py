@@ -10,10 +10,10 @@ from rotulo.params import Params
 from rotulo.spacing import kerning
 
 FAMILY = "Rotulo"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 LICENSE = "This Font Software is licensed under the SIL Open Font License, Version 1.1."
 LICENSE_URL = "https://openfontlicense.org"
-DETAIL_LIGHT = (0x2F / 255, 0x5D / 255, 0x62 / 255, 1.0)
+DETAIL_LIGHT = (0x3D / 255, 0x8A / 255, 0x8F / 255, 1.0)
 DETAIL_DARK = (0x7F / 255, 0xB7 / 255, 0xB5 / 255, 1.0)
 
 __all__ = ["build_context", "build_font", "font_builder", "glyph_name"]
@@ -76,7 +76,7 @@ def font_builder(params: Params, style: str, weight_class: int, gs: GlyphSet) ->
         fb.font["CPAL"] = buildCPAL(
             [[DETAIL_LIGHT], [DETAIL_DARK]],
             paletteTypes=[
-                ColorPaletteType.USABLE_WITH_LIGHT_BACKGROUND,
+                0,
                 ColorPaletteType.USABLE_WITH_DARK_BACKGROUND,
             ],
         )

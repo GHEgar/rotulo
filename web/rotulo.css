@@ -15,11 +15,12 @@
 }
 
 @font-palette-values --rotulo-dark {
-    font-family: 'Rotulo';
+    font-family: 'Rotulo', 'Rotulo Lectura';
     base-palette: 1;
 }
 
-@font-palette-values --rotulo-lectura-dark {
-    font-family: 'Rotulo Lectura';
-    base-palette: 1;
+@media (prefers-color-scheme: dark) {
+    :root {
+        font-palette: --rotulo-dark;
+    }
 }

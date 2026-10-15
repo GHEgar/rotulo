@@ -61,8 +61,8 @@ text color.
 
 | Palette | Detail color | CSS |
 |---|---|---|
-| 0, light backgrounds | `#2f5d62` | default |
-| 1, dark backgrounds | `#7fb7b5` | `font-palette: --rotulo-dark` |
+| 0, any background | `#3d8a8f` | default; readable on light and dark |
+| 1, dark backgrounds | `#7fb7b5` | `font-palette: --rotulo-dark`; the stylesheet applies it under `prefers-color-scheme: dark` |
 
 Override the detail color with `@font-palette-values` and `override-colors: 0 <color>`.
 

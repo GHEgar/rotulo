@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rotulo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Monoline typeface generated from skeletons: strokes of lines and arcs expanded with a round pen."
 readme = "README.md"
 license = "OFL-1.1"
