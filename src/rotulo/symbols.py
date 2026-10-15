@@ -29,51 +29,57 @@ def add_symbols(ctx: Context) -> None:
     )
 
     amp = cap * 0.62
+    amp_f, amp_gap = amp * 0.74, 32
     d(
         "&",
         amp,
         "o",
         "v",
         [
-            pen()
-            .m(amp, 0)
-            .l(amp * 0.25, cap * 0.64)
-            .a(amp * 0.42, cap * 0.78, amp * 0.22, cap * 0.22, 220, -50)
-            .l(amp * 0.14, cap * 0.48)
-            .a(amp * 0.36, cap * 0.27, amp * 0.34, cap * 0.27, 130, 375)
-            .l(amp * 0.92, cap * 0.42)
+            ctx.ring(amp_f / 2, cap * 0.76, amp_f * 0.42, cap * 0.24),
+            pen().a(amp_f / 2, cap * 0.26, amp_f / 2, cap * 0.26 + o, amp_gap, 360 - amp_gap),
+            pen(sharp=sh).m(amp * 1.02, cap * 0.55).l(amp_f, cap * 0.26).l(amp * 1.02, 0),
         ],
     )
-    atw, atc = cap * 0.9, cap * 0.32
-    atr = atw * 0.2
-    atrh = atr * 0.5
+    atw, atc, atoc = cap * 0.92, cap * 0.36, cap * 0.32
+    atr = atw * 0.19
+    at_rho = (atw - atw / 2 - atr) / 2
+    at_yb = atc - atr + at_rho
     d(
         "@",
         atw,
         "o",
         "o",
         [
-            ctx.ring(atw / 2, atc, atr, atr),
             pen()
-            .m(atw / 2 + atr, atc + atr)
-            .l(atw / 2 + atr, atc - atr * 0.5)
-            .a(atw / 2 + atr + atrh, atc - atr * 0.5, atrh, atrh, 180, 270)
-            .a(atw / 2, atc, atw / 2, cap * 0.5, -20, 300),
+            .a(atw / 2, atc, atr, atr, 360, 0)
+            .l(atw / 2 + atr, at_yb)
+            .a(atw / 2 + atr + at_rho, at_yb, at_rho, at_rho, 180, 360)
+            .l(atw, atoc)
+            .a(atw / 2, atoc, atw / 2, cap * 0.5, 0, 300)
         ],
     )
-    hw = cap * 0.62
+    hw = cap * 0.5
     d(
         "#",
         hw,
         "v",
         "v",
         [
-            pen().m(hw * 0.3, 0).l(hw * 0.3, cap),
-            pen().m(hw * 0.7, 0).l(hw * 0.7, cap),
-            pen().m(0, cap * 0.33).l(hw, cap * 0.33),
-            pen().m(0, cap * 0.67).l(hw, cap * 0.67),
+            pen().m(hw * 0.32, 0).l(hw * 0.32, cap),
+            pen().m(hw * 0.68, 0).l(hw * 0.68, cap),
+            pen().m(0, cap * 0.36).l(hw, cap * 0.36),
+            pen().m(0, cap * 0.64).l(hw, cap * 0.64),
         ],
     )
+
+    def ring_slash(cx: float, cy: float, rx: float, ry: float) -> Stroke:
+        th = math.atan(1.6)
+        c, s = math.cos(th), math.sin(th)
+        re = 1 / math.sqrt((c / rx) ** 2 + (s / ry) ** 2)
+        ln = max(8.0, re - ctx.w - min(ctx.gap, xh * 0.08))
+        return pen().m(cx - ln * c, cy - ln * s).l(cx + ln * c, cy + ln * s)
+
     pcw = cap * 0.7
     d(
         "%",
@@ -85,8 +91,17 @@ def add_symbols(ctx: Context) -> None:
             ctx.ring(pcw * 0.8, cap * 0.2, pcw * 0.2, cap * 0.2),
             pen(sharp=sh).m(pcw * 0.9, cap).l(pcw * 0.1, 0),
         ],
+        [
+            ring_slash(pcw * 0.2, cap * 0.8, pcw * 0.2, cap * 0.2),
+            ring_slash(pcw * 0.8, cap * 0.2, pcw * 0.2, cap * 0.2),
+        ],
     )
     euw, ap = cap * 0.72, p.aperture
+
+    def euro_x(y: float) -> float:
+        k = (y - cap / 2) / (cap / 2 + o)
+        return euw * 0.55 - euw * 0.45 * math.sqrt(max(0.0, 1 - k * k))
+
     d(
         "€",
         euw,
@@ -94,18 +109,12 @@ def add_symbols(ctx: Context) -> None:
         "v",
         [
             pen().a(euw * 0.55, cap / 2, euw * 0.45, cap / 2 + o, ap, 360 - ap),
-            pen().m(0, cap * 0.58).l(euw * 0.6, cap * 0.58),
-            pen().m(0, cap * 0.42).l(euw * 0.6, cap * 0.42),
+            pen().m(euro_x(cap * 0.58), cap * 0.58).l(euw * 0.6, cap * 0.58),
+            pen().m(euro_x(cap * 0.42), cap * 0.42).l(euw * 0.6, cap * 0.42),
         ],
     )
     dlw = cap * 0.62
-    d(
-        "$",
-        dlw,
-        "o",
-        "o",
-        [s_curve(ctx, dlw, cap), pen().m(dlw / 2, cap * 1.1).l(dlw / 2, -cap * 0.1)],
-    )
+    d("$", dlw, "o", "o", [s_curve(ctx, dlw, cap), pen().m(dlw / 2, cap).l(dlw / 2, 0)])
     mw, mcy = xh * 0.8, xh * 0.5
     d(
         "+",
@@ -166,7 +175,12 @@ def add_symbols(ctx: Context) -> None:
         tlw,
         "o",
         "o",
-        [pen().a(tlw / 4, mcy, tlw / 4, tla, 180, 0).a(tlw * 3 / 4, mcy, tlw / 4, tla, 180, 360)],
+        [
+            pen()
+            .m(0, mcy)
+            .c(tlw * 0.15, mcy + tla * 1.8, tlw * 0.35, mcy + tla * 1.8, tlw / 2, mcy)
+            .c(tlw * 0.65, mcy - tla * 1.8, tlw * 0.85, mcy - tla * 1.8, tlw, mcy)
+        ],
     )
 
     def quote_open(x: float) -> Stroke:
