@@ -29,13 +29,24 @@ def add_symbols(ctx: Context) -> None:
     )
 
     amp = cap * 0.62
-    loop = (amp * 0.46, cap * 0.77, amp * 0.24, cap * 0.21)
+    loop = (amp * 0.46, cap * 0.82, amp * 0.21, cap * 0.18)
     bowl = (amp * 0.4, cap * 0.28, amp * 0.38, cap * 0.28)
 
     def on(e: tuple[float, float, float, float], deg: float) -> tuple[float, float]:
         return e[0] + e[2] * math.cos(deg * DEG), e[1] + e[3] * math.sin(deg * DEG)
 
-    t0, t1, leg = on(loop, -40), on(bowl, 125), on(loop, 215)
+    def clockwise(e: tuple[float, float, float, float], deg: float) -> tuple[float, float]:
+        vx, vy = e[2] * math.sin(deg * DEG), -e[3] * math.cos(deg * DEG)
+        n = math.hypot(vx, vy)
+        return vx / n, vy / n
+
+    start = (amp * 0.98, 0.0)
+    leg, leg_d = on(loop, 215), clockwise(loop, 215)
+    leg_k = math.dist(start, leg) * 0.4
+    w0, w0_d, w1, w1_d = on(loop, -55), clockwise(loop, -55), on(bowl, 120), clockwise(bowl, 120)
+    waist_k = math.dist(w0, w1) * 0.4
+    arm0, arm0_d, tip = on(bowl, 345), clockwise(bowl, 345), (amp * 0.96, cap * 0.5)
+    arm_k = math.dist(arm0, tip) * 0.35
     d(
         "&",
         amp,
@@ -43,19 +54,30 @@ def add_symbols(ctx: Context) -> None:
         "v",
         [
             pen()
-            .m(amp * 1.02, 0)
-            .l(*leg)
-            .a(*loop, 215, -40)
+            .m(*start)
             .c(
-                t0[0] - loop[2] * 0.35,
-                t0[1] - loop[3] * 0.45,
-                t1[0] + bowl[2] * 0.3,
-                t1[1] + bowl[3] * 0.4,
-                t1[0],
-                t1[1],
+                start[0] - amp * 0.22,
+                start[1] + cap * 0.01,
+                leg[0] - leg_d[0] * leg_k,
+                leg[1] - leg_d[1] * leg_k,
+                *leg,
             )
-            .a(*bowl, 125, 370)
-            .l(amp * 0.98, cap * 0.46)
+            .a(*loop, 215, -55)
+            .c(
+                w0[0] + w0_d[0] * waist_k,
+                w0[1] + w0_d[1] * waist_k,
+                w1[0] + w1_d[0] * waist_k,
+                w1[1] + w1_d[1] * waist_k,
+                *w1,
+            )
+            .a(*bowl, 120, 345)
+            .c(
+                arm0[0] - arm0_d[0] * arm_k,
+                arm0[1] - arm0_d[1] * arm_k,
+                tip[0] + amp * 0.02,
+                tip[1] - cap * 0.1,
+                *tip,
+            )
         ],
     )
     atw, atc, atoc = cap * 0.92, cap * 0.32, cap * 0.32
