@@ -3,6 +3,12 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado con
 [SemVer](https://semver.org/lang/es/).
 
+## [No publicado]
+
+### Cambiado
+
+- El paquete npm se llama `rotulo`, sin scope; `@npmegar/rotulo` queda deprecado.
+
 ## [0.1.1] - 2026-10-15
 
 ### Cambiado

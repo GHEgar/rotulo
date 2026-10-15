@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/icon-dark.svg"><img src=".github/assets/icon-light.svg" width="36" height="36" alt=""></picture> rotulo
 
-[![npm](https://img.shields.io/npm/v/@npmegar/rotulo)](https://www.npmjs.com/package/@npmegar/rotulo) [![PyPI](https://img.shields.io/pypi/v/rotulo)](https://pypi.org/project/rotulo/) [![license](https://img.shields.io/badge/license-OFL--1.1-blue)](LICENSE)
+[![npm](https://img.shields.io/npm/v/rotulo)](https://www.npmjs.com/package/rotulo) [![PyPI](https://img.shields.io/pypi/v/rotulo)](https://pypi.org/project/rotulo/) [![license](https://img.shields.io/badge/license-OFL--1.1-blue)](LICENSE)
 
 Monoline typeface generated from skeletons: strokes of lines and arcs expanded with a round pen.
 
@@ -15,21 +15,21 @@ letters that are hard to mirror.
 ## Install
 
 ```bash
-npm install @npmegar/rotulo
+npm install rotulo
 pip install rotulo
 ```
 
 | Package | What it is | Needs |
 |---|---|---|
-| `@npmegar/rotulo` | WOFF2 files and a stylesheet with the `@font-face` rules | A bundler that resolves CSS imports, or a plain `<link>` |
-| `rotulo` | The generator: builds every font from the skeletons | Python 3.12 or later |
+| `rotulo` (npm) | WOFF2 files and a stylesheet with the `@font-face` rules | A bundler that resolves CSS imports, or a plain `<link>` |
+| `rotulo` (PyPI) | The generator: builds every font from the skeletons | Python 3.12 or later |
 
 The TTF files are attached to each [GitHub release](https://github.com/GHEgar/rotulo/releases).
 
 ## Quick start
 
 ```css
-@import '@npmegar/rotulo';
+@import 'rotulo';
 
 body {
     font-family: 'Rotulo', system-ui, sans-serif;
