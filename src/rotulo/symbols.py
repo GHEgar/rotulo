@@ -29,20 +29,23 @@ def add_symbols(ctx: Context) -> None:
     )
 
     amp = cap * 0.62
-    amp_f, amp_gap = amp * 0.74, 32
     d(
         "&",
         amp,
         "o",
         "v",
         [
-            ctx.ring(amp_f / 2, cap * 0.76, amp_f * 0.42, cap * 0.24),
-            pen().a(amp_f / 2, cap * 0.26, amp_f / 2, cap * 0.26 + o, amp_gap, 360 - amp_gap),
-            pen(sharp=sh).m(amp * 1.02, cap * 0.55).l(amp_f, cap * 0.26).l(amp * 1.02, 0),
+            pen()
+            .m(amp, 0)
+            .l(amp * 0.25, cap * 0.64)
+            .a(amp * 0.42, cap * 0.78, amp * 0.22, cap * 0.22, 220, -50)
+            .l(amp * 0.14, cap * 0.48)
+            .a(amp * 0.36, cap * 0.27, amp * 0.34, cap * 0.27, 130, 375)
+            .l(amp * 0.92, cap * 0.42)
         ],
     )
     atw, atc, atoc = cap * 0.92, cap * 0.36, cap * 0.32
-    atr = atw * 0.19
+    atr = atw * 0.26
     at_rho = (atw - atw / 2 - atr) / 2
     at_yb = atc - atr + at_rho
     d(
