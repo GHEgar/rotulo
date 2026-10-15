@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Rotulo';
+    src: url('./fonts/Rotulo-Variable.woff2') format('woff2');
+    font-weight: 200 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rotulo Lectura';
+    src: url('./fonts/Rotulo-Lectura.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-palette-values --rotulo-dark {
+    font-family: 'Rotulo';
+    base-palette: 1;
+}
+
+@font-palette-values --rotulo-lectura-dark {
+    font-family: 'Rotulo Lectura';
+    base-palette: 1;
+}

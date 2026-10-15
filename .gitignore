@@ -7,3 +7,6 @@ build
 .mypy_cache
 .ruff_cache
 test-results
+web/fonts
+web/README.md
+web/LICENSE

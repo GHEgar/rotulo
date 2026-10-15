@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Text Processing :: Fonts",
     "Typing :: Typed",
 ]
-dependencies = ["fonttools>=4.50", "skia-pathops>=0.8", "ttfautohint-py>=0.5"]
+dependencies = ["brotli>=1.1", "fonttools>=4.50", "skia-pathops>=0.8", "ttfautohint-py>=0.5"]
 
 [project.optional-dependencies]
 dev = ["mypy>=1.10", "pytest>=8.0", "ruff>=0.6"]

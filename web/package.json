@@ -1,0 +1,34 @@
+{
+    "name": "@npmegar/rotulo",
+    "version": "0.1.0",
+    "description": "Monoline typeface generated from skeletons: strokes of lines and arcs expanded with a round pen.",
+    "keywords": [
+        "font",
+        "typeface",
+        "monoline",
+        "cartography",
+        "map-labels",
+        "woff2"
+    ],
+    "license": "OFL-1.1",
+    "author": "Edgar Villarreal",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/GHEgar/rotulo.git",
+        "directory": "web"
+    },
+    "homepage": "https://github.com/GHEgar/rotulo#readme",
+    "bugs": {
+        "url": "https://github.com/GHEgar/rotulo/issues"
+    },
+    "style": "./rotulo.css",
+    "exports": {
+        ".": "./rotulo.css",
+        "./rotulo.css": "./rotulo.css",
+        "./fonts/*": "./fonts/*"
+    },
+    "files": [
+        "rotulo.css",
+        "fonts"
+    ]
+}
