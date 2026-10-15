@@ -46,7 +46,7 @@ def add_symbols(ctx: Context) -> None:
     chord = (leg[0] - start[0], leg[1] - start[1])
     chord_len = math.hypot(*chord)
     down = (-chord[1] / chord_len, chord[0] / chord_len)
-    sag = chord_len * 0.11
+    sag = chord_len * 0.17
     w0, w0_d, w1, w1_d = on(loop, -55), clockwise(loop, -55), on(bowl, 120), clockwise(bowl, 120)
     waist_k = math.dist(w0, w1) * 0.4
     arm0, arm0_d, tip = on(bowl, 335), clockwise(bowl, 335), (amp * 1.0, cap * 0.52)
@@ -78,8 +78,8 @@ def add_symbols(ctx: Context) -> None:
             .c(
                 arm0[0] - arm0_d[0] * arm_k,
                 arm0[1] - arm0_d[1] * arm_k,
-                tip[0] - 0.6 * arm_k,
-                tip[1] - 0.8 * arm_k,
+                tip[0] - 0.85 * arm_k,
+                tip[1] - 0.53 * arm_k,
                 *tip,
             )
         ],
