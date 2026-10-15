@@ -57,7 +57,7 @@ def test_variable_font_interpolates_every_glyph(tmp_path: Path) -> None:
 
     font = TTFont(build_variable(tmp_path))
     axis = font["fvar"].axes[0]
-    assert (axis.axisTag, axis.minValue, axis.maxValue) == ("wght", 200, 500)
+    assert (axis.axisTag, axis.minValue, axis.maxValue) == ("wght", 200, 700)
     order = font.getGlyphOrder()
     outlined = [n for n in order if font["glyf"][n].numberOfContours > 0]
     assert all(n in font["gvar"].variations for n in outlined)

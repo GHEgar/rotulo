@@ -8,7 +8,7 @@ Monoline typeface generated from skeletons: strokes of lines and arcs expanded w
 
 Every letter is a skeleton of straight lines and arcs drawn in code, never a hand-drawn outline. The
 generator expands each skeleton with a round pen and writes TrueType and WOFF2 fonts. Weight is the
-pen width, so the family is a variable font from 200 to 500. Floating details (dots, accents, the zero
+pen width, so the family is a variable font from 200 to 700. Floating details (dots, accents, the zero
 slash, punctuation) are a second color layer. A reading cut, **Lectura**, adds weight, spacing and
 letters that are hard to mirror.
 
@@ -49,7 +49,7 @@ python -m rotulo --out build --web build/web
 
 | Family | File | Weight | Use |
 |---|---|---|---|
-| `Rotulo` | `Rotulo-Variable.woff2`, `Rotulo[wght].ttf` | 200 to 500 | Map labels, interface, titles |
+| `Rotulo` | `Rotulo-Variable.woff2`, `Rotulo[wght].ttf` | 200 to 700 | Map labels, interface, titles |
 | `Rotulo` | `Rotulo-Display.ttf` | 200, static and hinted | Renderers without variable fonts, such as GeoServer or PDF libraries |
 | `Rotulo Lectura` | `Rotulo-Lectura.woff2`, `.ttf` | 500, static and hinted | Long reading |
 

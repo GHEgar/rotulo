@@ -13,7 +13,7 @@ from rotulo.capsule import Contour, capsules
 from rotulo.glyphset import GlyphSet, collect
 from rotulo.params import DISPLAY, Params
 
-AXIS_MIN, AXIS_MAX = 200, 500
+AXIS_MIN, AXIS_MAX = 200, 700
 MAX_ERROR = 1.0
 
 
@@ -49,7 +49,7 @@ def _compatible(sets: list[GlyphSet]) -> None:
             gs.glyphs[name] = glyph
 
 
-def build_variable(out: Path, light: Params = DISPLAY, heavy_weight: float = 75) -> Path:
+def build_variable(out: Path, light: Params = DISPLAY, heavy_weight: float = 106) -> Path:
     masters = [light, replace(light, weight=heavy_weight)]
     sets = [collect(p, draw=capsules) for p in masters]
     _compatible(sets)
