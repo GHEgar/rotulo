@@ -8,9 +8,19 @@ from rotulo.build import glyph_name
 SPANISH = "abcdefghijklmnñopqrstuvwxyzáéíóúüABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ0123456789¿?¡!.,:;"
 
 
+EXTENDED = "àèìòùâêîôûãõçëïÿÀÈÌÒÙÂÊÎÔÛÃÕÇËÏ&@#%€$+=*_[]{}<>|~" + "".join(
+    chr(c) for c in (0x2018, 0x2019, 0x201C, 0x201D, 0xAB, 0xBB, 0x2026, 0xB7, 0x2014)
+)
+
+
 def test_context_covers_spanish() -> None:
     ctx = build_context(DISPLAY)
     assert set(SPANISH) <= set(ctx.glyphs)
+
+
+def test_context_covers_extended_latin_and_symbols() -> None:
+    ctx = build_context(DISPLAY)
+    assert set(EXTENDED) <= set(ctx.glyphs)
 
 
 def test_font_metrics_follow_the_skeleton(tmp_path: Path) -> None:

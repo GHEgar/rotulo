@@ -1,6 +1,6 @@
 import math
 
-from rotulo.chars import DOTLESS_I, DOUBLE_PRIME, EN_DASH, PRIME
+from rotulo.chars import DOUBLE_PRIME, EN_DASH, PRIME
 from rotulo.context import Context
 from rotulo.skeleton import DEG, Stroke
 
@@ -215,21 +215,3 @@ def add_figures(ctx: Context) -> None:
     d("(", pw, "v", "v", [pen().a(pw * 2.4, pm, pw * 2.4, ph, 130, 230)])
     d(")", pw, "v", "v", [pen().a(-pw * 1.4, pm, pw * 2.4, ph, 50, -50)])
     d("/", xh * 0.5, "v", "v", [pen().m(0, desc * 0.5).l(xh * 0.5, asc)])
-
-
-def add_accents(ctx: Context) -> None:
-    g = ctx.glyphs
-
-    def compose(ch: str, base: str, extra: list[Stroke]) -> None:
-        b = g[base]
-        ctx.define(ch, b.width, b.left, b.right, b.strokes, [*b.details, *extra], b.ax)
-
-    for ch, base in (("á", "a"), ("é", "e"), ("ó", "o"), ("ú", "u")):
-        compose(ch, base, [ctx.acute(g[base].ax, ctx.yt)])
-    compose("í", DOTLESS_I, [ctx.acute(0, ctx.yt)])
-    compose("ñ", "n", [ctx.tilde(g["n"].ax, ctx.yt)])
-    compose("ü", "u", ctx.dieresis(g["u"].ax, ctx.yt))
-    for ch, base in (("Á", "A"), ("É", "E"), ("Í", "I"), ("Ó", "O"), ("Ú", "U")):
-        compose(ch, base, [ctx.acute(g[base].ax, ctx.yc)])
-    compose("Ñ", "N", [ctx.tilde(g["N"].ax, ctx.yc)])
-    compose("Ü", "U", ctx.dieresis(g["U"].ax, ctx.yc))

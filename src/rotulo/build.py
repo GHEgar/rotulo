@@ -6,13 +6,15 @@ from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 
+from rotulo.accents import add_accents
 from rotulo.chars import DOTLESS_I
 from rotulo.context import Context
-from rotulo.figures import add_accents, add_figures
+from rotulo.figures import add_figures
 from rotulo.lowercase import add_lowercase
 from rotulo.outline import outline
 from rotulo.params import Params
 from rotulo.spacing import kerning, placement, space_width
+from rotulo.symbols import add_symbols
 from rotulo.uppercase import add_uppercase
 
 FAMILY = "Rotulo"
@@ -30,6 +32,7 @@ def build_context(params: Params) -> Context:
     add_lowercase(ctx)
     add_uppercase(ctx)
     add_figures(ctx)
+    add_symbols(ctx)
     add_accents(ctx)
     return ctx
 
