@@ -29,6 +29,13 @@ def add_symbols(ctx: Context) -> None:
     )
 
     amp = cap * 0.62
+    loop = (amp * 0.46, cap * 0.77, amp * 0.24, cap * 0.21)
+    bowl = (amp * 0.4, cap * 0.28, amp * 0.38, cap * 0.28)
+
+    def on(e: tuple[float, float, float, float], deg: float) -> tuple[float, float]:
+        return e[0] + e[2] * math.cos(deg * DEG), e[1] + e[3] * math.sin(deg * DEG)
+
+    t0, t1, leg = on(loop, -40), on(bowl, 125), on(loop, 215)
     d(
         "&",
         amp,
@@ -36,15 +43,22 @@ def add_symbols(ctx: Context) -> None:
         "v",
         [
             pen()
-            .m(amp, 0)
-            .l(amp * 0.25, cap * 0.64)
-            .a(amp * 0.42, cap * 0.78, amp * 0.22, cap * 0.22, 220, -50)
-            .l(amp * 0.14, cap * 0.48)
-            .a(amp * 0.36, cap * 0.27, amp * 0.34, cap * 0.27, 130, 375)
-            .l(amp * 0.92, cap * 0.42)
+            .m(amp * 1.02, 0)
+            .l(*leg)
+            .a(*loop, 215, -40)
+            .c(
+                t0[0] - loop[2] * 0.35,
+                t0[1] - loop[3] * 0.45,
+                t1[0] + bowl[2] * 0.3,
+                t1[1] + bowl[3] * 0.4,
+                t1[0],
+                t1[1],
+            )
+            .a(*bowl, 125, 370)
+            .l(amp * 0.98, cap * 0.46)
         ],
     )
-    atw, atc, atoc = cap * 0.92, cap * 0.36, cap * 0.32
+    atw, atc, atoc = cap * 0.92, cap * 0.32, cap * 0.32
     atr = atw * 0.26
     at_rho = (atw - atw / 2 - atr) / 2
     at_yb = atc - atr + at_rho
