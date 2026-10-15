@@ -3,7 +3,7 @@ from pathlib import Path
 from fontTools.ttLib import TTFont
 
 from rotulo import DISPLAY, READING, build_context, build_font
-from rotulo.build import glyph_name
+from rotulo.glyphset import glyph_name
 
 SPANISH = "abcdefghijklmnñopqrstuvwxyzáéíóúüABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ0123456789¿?¡!.,:;"
 
@@ -39,3 +39,14 @@ def test_reading_font_has_kerning_and_alternates(tmp_path: Path) -> None:
     assert "kern" in tags
     assert font["glyf"][glyph_name("q")].xMax > font["glyf"][glyph_name("p")].xMax
     assert font["hmtx"]["i"][0] > 0
+
+
+def test_display_font_has_color_details_alternates_and_hinting(tmp_path: Path) -> None:
+    font = TTFont(build_font(DISPLAY, "Display", 200, tmp_path))
+    layers = font["COLR"].ColorLayers
+    assert [layer.colorID for layer in layers["i"]] == [0xFFFF, 0]
+    assert len(font["CPAL"].palettes) == 2
+    tags = [r.FeatureTag for r in font["GSUB"].table.FeatureList.FeatureRecord]
+    assert "ss01" in tags
+    assert {"l.ss01", "q.ss01", "one.ss01", "nine.ss01"} <= set(font.getGlyphOrder())
+    assert "fpgm" in font

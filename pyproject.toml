@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Text Processing :: Fonts",
     "Typing :: Typed",
 ]
-dependencies = ["fonttools>=4.50", "skia-pathops>=0.8"]
+dependencies = ["fonttools>=4.50", "skia-pathops>=0.8", "ttfautohint-py>=0.5"]
 
 [project.optional-dependencies]
 dev = ["mypy>=1.10", "pytest>=8.0", "ruff>=0.6"]
@@ -50,5 +50,5 @@ files = ["src", "tests"]
 mypy_path = "src"
 
 [[tool.mypy.overrides]]
-module = ["fontTools.*", "pathops.*"]
+module = ["fontTools.*", "pathops.*", "ttfautohint.*"]
 ignore_missing_imports = true

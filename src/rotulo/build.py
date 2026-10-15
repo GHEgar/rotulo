@@ -1,89 +1,60 @@
 from pathlib import Path
+from typing import Any
 
-from fontTools.agl import UV2AGL
+from fontTools.colorLib.builder import ColorPaletteType, buildCOLR, buildCPAL
 from fontTools.feaLib.builder import addOpenTypeFeaturesFromString
 from fontTools.fontBuilder import FontBuilder
-from fontTools.pens.cu2quPen import Cu2QuPen
-from fontTools.pens.ttGlyphPen import TTGlyphPen
 
-from rotulo.accents import add_accents
-from rotulo.chars import DOTLESS_I
-from rotulo.context import Context
-from rotulo.figures import add_figures
-from rotulo.lowercase import add_lowercase
-from rotulo.outline import outline
+from rotulo.glyphset import GlyphSet, build_context, collect, glyph_name
 from rotulo.params import Params
-from rotulo.spacing import kerning, placement, space_width
-from rotulo.symbols import add_symbols
-from rotulo.uppercase import add_uppercase
+from rotulo.spacing import kerning
 
 FAMILY = "Rotulo"
+VERSION = "0.1.0"
 LICENSE = "This Font Software is licensed under the SIL Open Font License, Version 1.1."
 LICENSE_URL = "https://openfontlicense.org"
+DETAIL_LIGHT = (0x2F / 255, 0x5D / 255, 0x62 / 255, 1.0)
+DETAIL_DARK = (0x7F / 255, 0xB7 / 255, 0xB5 / 255, 1.0)
+
+__all__ = ["build_context", "build_font", "font_builder", "glyph_name"]
 
 
-def glyph_name(ch: str) -> str:
-    cp = ord(ch)
-    return str(UV2AGL.get(cp, f"uni{cp:04X}"))
+def features(gs: GlyphSet) -> str:
+    blocks = []
+    rules = [
+        f"    pos {gs.names[a]} {gs.names[b]} {v};"
+        for (a, b), v in sorted(kerning(gs.ctx).items())
+        if a in gs.names and b in gs.names
+    ]
+    if rules:
+        blocks.append("feature kern {\n" + "\n".join(rules) + "\n} kern;")
+    if gs.alternates:
+        subs = "\n".join(f"    sub {base} by {alt};" for base, alt in gs.alternates.items())
+        blocks.append(
+            'feature ss01 {\n    featureNames { name "Lectura"; };\n' + subs + "\n} ss01;"
+        )
+    return "\n".join(blocks) + "\n"
 
 
-def build_context(params: Params) -> Context:
-    ctx = Context(params)
-    add_lowercase(ctx)
-    add_uppercase(ctx)
-    add_figures(ctx)
-    add_symbols(ctx)
-    add_accents(ctx)
-    return ctx
-
-
-def _notdef() -> object:
-    pen = TTGlyphPen(None)
-    for box in (((50, 0), (450, 700)), ((100, 50), (400, 650))):
-        (x0, y0), (x1, y1) = box
-        pts = [(x0, y0), (x0, y1), (x1, y1), (x1, y0)]
-        if box[0] == (100, 50):
-            pts.reverse()
-        pen.moveTo(pts[0])
-        for pt in pts[1:]:
-            pen.lineTo(pt)
-        pen.closePath()
-    return pen.glyph()
-
-
-def build_font(params: Params, style: str, weight_class: int, out: Path) -> Path:
-    ctx = build_context(params)
-    chars = [ch for ch in ctx.glyphs if ch != DOTLESS_I]
-    names = {ch: glyph_name(ch) for ch in chars}
-    order = [".notdef", "space", *names.values()]
-    glyphs: dict[str, object] = {".notdef": _notdef(), "space": TTGlyphPen(None).glyph()}
-    advances: dict[str, int] = {".notdef": 500, "space": round(space_width(ctx))}
-    for ch in chars:
-        g = ctx.glyphs[ch]
-        place = placement(ctx, ch, g)
-        pen = TTGlyphPen(None)
-        outline(g, params.weight, place.dx).draw(Cu2QuPen(pen, 1.0, reverse_direction=False))
-        glyphs[names[ch]] = pen.glyph()
-        advances[names[ch]] = round(place.advance)
-
+def font_builder(params: Params, style: str, weight_class: int, gs: GlyphSet) -> Any:
     fb = FontBuilder(1000, isTTF=True)
-    fb.setupGlyphOrder(order)
-    fb.setupCharacterMap({32: "space", **{ord(ch): names[ch] for ch in chars}})
-    fb.setupGlyf(glyphs)
+    fb.setupGlyphOrder(gs.order)
+    fb.setupCharacterMap(gs.cmap)
+    fb.setupGlyf(gs.glyphs)
     glyf = fb.font["glyf"]
-    fb.setupHorizontalMetrics({n: (advances[n], getattr(glyf[n], "xMin", 0)) for n in order})
-    y_max = max(getattr(glyf[n], "yMax", 0) for n in order)
-    y_min = min(getattr(glyf[n], "yMin", 0) for n in order)
+    fb.setupHorizontalMetrics({n: (gs.advances[n], getattr(glyf[n], "xMin", 0)) for n in gs.order})
+    y_max = max(getattr(glyf[n], "yMax", 0) for n in gs.order)
+    y_min = min(getattr(glyf[n], "yMin", 0) for n in gs.order)
     fb.setupHorizontalHeader(ascent=y_max, descent=y_min)
     ps = f"{FAMILY}-{style}"
     fb.setupNameTable(
         {
             "familyName": FAMILY,
             "styleName": style,
-            "uniqueFontIdentifier": f"{ps};0.1.0",
+            "uniqueFontIdentifier": f"{ps};{VERSION}",
             "fullName": f"{FAMILY} {style}",
             "psName": ps,
-            "version": "Version 0.100",
+            "version": f"Version {VERSION}",
             "licenseDescription": LICENSE,
             "licenseInfoURL": LICENSE_URL,
         }
@@ -100,15 +71,27 @@ def build_font(params: Params, style: str, weight_class: int, out: Path) -> Path
         fsType=0,
     )
     fb.setupPost()
-    pairs = kerning(ctx)
-    if pairs:
-        rules = "\n".join(
-            f"    pos {names[a]} {names[b]} {v};"
-            for (a, b), v in sorted(pairs.items())
-            if a in names and b in names
+    if gs.layers:
+        fb.font["COLR"] = buildCOLR(gs.layers, version=0)
+        fb.font["CPAL"] = buildCPAL(
+            [[DETAIL_LIGHT], [DETAIL_DARK]],
+            paletteTypes=[
+                ColorPaletteType.USABLE_WITH_LIGHT_BACKGROUND,
+                ColorPaletteType.USABLE_WITH_DARK_BACKGROUND,
+            ],
         )
-        addOpenTypeFeaturesFromString(fb.font, f"feature kern {{\n{rules}\n}} kern;\n")
+    addOpenTypeFeaturesFromString(fb.font, features(gs))
+    return fb
+
+
+def build_font(params: Params, style: str, weight_class: int, out: Path, hint: bool = True) -> Path:
+    gs = collect(params)
+    fb = font_builder(params, style, weight_class, gs)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{ps}.ttf"
+    path = out / f"{FAMILY}-{style}.ttf"
     fb.save(str(path))
+    if hint:
+        from ttfautohint import ttfautohint
+
+        ttfautohint(in_file=str(path), out_file=str(path))
     return path
