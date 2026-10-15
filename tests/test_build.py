@@ -50,3 +50,14 @@ def test_display_font_has_color_details_alternates_and_hinting(tmp_path: Path) -
     assert "ss01" in tags
     assert {"l.ss01", "q.ss01", "one.ss01", "nine.ss01"} <= set(font.getGlyphOrder())
     assert "fpgm" in font
+
+
+def test_variable_font_interpolates_every_glyph(tmp_path: Path) -> None:
+    from rotulo.variable import build_variable
+
+    font = TTFont(build_variable(tmp_path))
+    axis = font["fvar"].axes[0]
+    assert (axis.axisTag, axis.minValue, axis.maxValue) == ("wght", 200, 500)
+    order = font.getGlyphOrder()
+    outlined = [n for n in order if font["glyf"][n].numberOfContours > 0]
+    assert all(n in font["gvar"].variations for n in outlined)
