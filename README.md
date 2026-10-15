@@ -49,7 +49,7 @@ python -m rotulo --out build --web build/web
 
 | Family | File | Weight | Use |
 |---|---|---|---|
-| `Rotulo` | `Rotulo-Variable.woff2`, `Rotulo[wght].ttf` | 200 to 700 | Map labels, interface, titles |
+| `Rotulo` | `Rotulo-Variable.woff2`, `.ttf` | 200 to 700 | Map labels, interface, titles |
 | `Rotulo` | `Rotulo-Display.ttf` | 200, static and hinted | Renderers without variable fonts, such as GeoServer or PDF libraries |
 | `Rotulo Lectura` | `Rotulo-Lectura.woff2`, `.ttf` | 500, static and hinted | Long reading |
 

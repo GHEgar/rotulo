@@ -3,7 +3,7 @@ from pathlib import Path
 from fontTools.ttLib import TTFont
 
 WEB_NAMES = {
-    "Rotulo[wght].ttf": "Rotulo-Variable.woff2",
+    "Rotulo-Variable.ttf": "Rotulo-Variable.woff2",
     "Rotulo-Display.ttf": "Rotulo-Display.woff2",
     "Rotulo-Lectura.ttf": "Rotulo-Lectura.woff2",
 }

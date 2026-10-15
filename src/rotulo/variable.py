@@ -72,6 +72,6 @@ def build_variable(out: Path, light: Params = DISPLAY, heavy_weight: float = 106
         doc.addSource(source)
     font, _, _ = build(doc)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{FAMILY}[wght].ttf"
+    path = out / f"{FAMILY}-Variable.ttf"
     font.save(str(path))
     return path
