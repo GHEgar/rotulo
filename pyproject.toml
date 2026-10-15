@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rotulo"
+version = "0.1.0"
+description = "Monoline typeface generated from skeletons: strokes of lines and arcs expanded with a round pen."
+readme = "README.md"
+license = "OFL-1.1"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "Edgar Villarreal" }]
+keywords = ["font", "typeface", "monoline", "cartography", "map-labels"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Text Processing :: Fonts",
+    "Typing :: Typed",
+]
+dependencies = ["fonttools>=4.50", "skia-pathops>=0.8"]
+
+[project.optional-dependencies]
+dev = ["mypy>=1.10", "pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+rotulo = "rotulo.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rotulo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["CLAUDE.md", "AGENTS.md"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "RUF", "ANN"]
+ignore = ["RUF009", "ANN401"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["fontTools.*", "pathops.*"]
+ignore_missing_imports = true

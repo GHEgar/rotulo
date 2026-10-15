@@ -1,0 +1,4 @@
+DOTLESS_I = chr(0x131)
+EN_DASH = chr(0x2013)
+PRIME = chr(0x2032)
+DOUBLE_PRIME = chr(0x2033)
