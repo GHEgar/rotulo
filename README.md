@@ -6,6 +6,8 @@ Monoline typeface generated from skeletons: strokes of lines and arcs expanded w
 
 ![Rotulo Display and Rotulo Lectura specimen](.github/assets/specimen.png)
 
+**[Live demo](https://ghegar.github.io/rotulo/)**
+
 Every letter is a skeleton of straight lines and arcs drawn in code, never a hand-drawn outline. The
 generator expands each skeleton with a round pen and writes TrueType and WOFF2 fonts. Weight is the
 pen width, so the family is a variable font from 200 to 700. A reading cut, **Lectura**, adds weight, spacing and
@@ -114,6 +116,9 @@ pytest
 ruff check src tests && ruff format --check src tests
 mypy
 ```
+
+The demo in `demo/` is a static specimen: build the fonts into it with
+`python -m rotulo --out build --web demo/fonts && cp web/rotulo.css demo/` and serve the folder.
 
 The tests build every font and check heights against the skeleton, kerning, the optional color layers, `ss01`,
 hinting and that the variable font interpolates every glyph.

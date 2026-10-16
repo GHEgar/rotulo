@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>rotulo</title>
+        <link rel="icon" href="data:," />
+        <link rel="stylesheet" href="./styles.css" />
+    </head>
+    <body>
+        <main class="wrap">
+            <header class="top">
+                <h1>rotulo</h1>
+                <p>Monoline typeface generated from skeletons: strokes of lines and arcs expanded with a round pen.</p>
+                <nav>
+                    <a href="https://github.com/GHEgar/rotulo">GitHub</a>
+                    <a href="https://www.npmjs.com/package/rotulo">npm</a>
+                    <a href="https://pypi.org/project/rotulo/">PyPI</a>
+                    <a href="https://github.com/GHEgar/rotulo/releases/latest">Download TTF</a>
+                </nav>
+            </header>
+
+            <section class="controls">
+                <label for="weight">Weight <output id="weight-out">400</output></label>
+                <input id="weight" type="range" min="200" max="700" step="1" value="400" />
+                <label for="size">Size <output id="size-out">64</output></label>
+                <input id="size" type="range" min="12" max="160" step="1" value="64" />
+                <label class="check"><input id="reading" type="checkbox" /> Reading forms (ss01)</label>
+            </section>
+
+            <section class="sample" id="sample" contenteditable="true" spellcheck="false">Río Santiago</section>
+
+            <section class="grid">
+                <div>
+                    <h2>Lowercase</h2>
+                    <p class="glyphs">abcdefghijklmnñopqrstuvwxyz</p>
+                </div>
+                <div>
+                    <h2>Uppercase</h2>
+                    <p class="glyphs">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</p>
+                </div>
+                <div>
+                    <h2>Figures and signs</h2>
+                    <p class="glyphs">0123456789 &amp;@#%€$+=*_ [](){}&lt;&gt;|~ ¿?¡! «» “” … · —</p>
+                </div>
+                <div>
+                    <h2>Accents</h2>
+                    <p class="glyphs">áéíóúüñ àèìòù âêîôû ãõ ç ëïÿ ÁÉÍÓÚÜÑ ÀÈÌÒÙ ÂÊÎÔÛ ÃÕ Ç</p>
+                </div>
+            </section>
+
+            <section class="weights" id="weights"></section>
+
+            <section class="reading">
+                <h2>Rotulo Lectura</h2>
+                <p>A heavier, wider-spaced cut with letters that are hard to mirror, meant for long reading.</p>
+                <p class="lectura">Un buen mapa no se nota: el lector simplemente llega a donde quería ir. Las avenidas principales llevan un trazo ancho y las calles pequeñas uno fino; los nombres se leen en cualquier ángulo y sobre cualquier fondo. bdpq Il1 69</p>
+            </section>
+
+            <section class="map">
+                <h2>Map labels</h2>
+                <svg viewBox="0 0 800 340" role="img" aria-label="Map labels set in Rotulo">
+                    <rect width="800" height="340" class="land" />
+                    <path d="M-20 280 C 200 230, 420 310, 820 260" class="water" />
+                    <path d="M-20 130 L 820 80 M 300 -20 L 340 360 M 620 -20 L 580 360" class="road" />
+                    <text x="470" y="64" class="city">GUADALAJARA</text>
+                    <text x="150" y="200" class="town">Zapopan</text>
+                    <text x="160" y="120" class="street" transform="rotate(-3.4 160 120)">Av. Vallarta</text>
+                    <text x="200" y="252" class="river" transform="rotate(-6 200 252)">Río Santiago</text>
+                    <text x="690" y="328" class="coord">20°40′ N  103°21′ O</text>
+                </svg>
+            </section>
+        </main>
+        <script src="./main.js"></script>
+    </body>
+</html>
