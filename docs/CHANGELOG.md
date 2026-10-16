@@ -5,6 +5,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.3.0] - 2026-10-16
+
 ### Cambiado
 
 - Las colas descendentes (`g`, `j`, `p`, `q`, `y`) bajan lo mismo que suben las ascendentes sobre la
