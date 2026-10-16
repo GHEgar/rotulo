@@ -10,7 +10,7 @@ GForm = Literal["bar", "curl"]
 
 @dataclass(frozen=True)
 class Params:
-    weight: float = 40
+    weight: float = 46
     x_height: float = 425
     cap_height: float = 700
     ascender: float = 840
@@ -44,7 +44,7 @@ class Params:
 DISPLAY = Params()
 READING = replace(
     DISPLAY,
-    weight=75,
+    weight=86,
     x_height=470,
     descender=-370,
     spacing=1.8,

@@ -50,7 +50,7 @@ def _compatible(sets: list[GlyphSet]) -> None:
 
 
 def build_variable(
-    out: Path, light: Params = DISPLAY, middle_weight: float = 75, heavy_weight: float = 106
+    out: Path, light: Params = DISPLAY, middle_weight: float = 86, heavy_weight: float = 122
 ) -> Path:
     masters = [light, replace(light, weight=heavy_weight)]
     sets = [collect(p, draw=capsules) for p in masters]

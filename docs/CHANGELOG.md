@@ -9,7 +9,9 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 - Las colas descendentes (`g`, `j`, `p`, `q`, `y`) bajan lo mismo que suben las ascendentes sobre la
   altura x: descendente −415 en Display y −370 en Lectura. Corchetes, llaves, paréntesis, `|`, `/` y `_`
-  conservan la profundidad de −180.
+  conservan la profundidad de −180, en el nuevo `sign_descender`.
+- Trazo un 15 % más grueso en toda la rampa: 46 en Display (peso 200), 86 en el peso 500 y en Lectura,
+  y 122 en el peso 700.
 
 ## [0.2.0] - 2026-10-16
 

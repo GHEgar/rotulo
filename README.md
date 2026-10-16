@@ -84,9 +84,10 @@ flag on `1` and a straight `9`.
 
 | Field | Default | What it controls |
 |---|---|---|
-| `weight` | 40 | Pen width |
+| `weight` | 46 | Pen width |
 | `x_height`, `cap_height` | 425, 700 | Body and capital heights |
-| `ascender`, `descender` | 840, −180 | Shared by every letter with a tail |
+| `ascender`, `descender` | 840, −415 | Shared by every letter with a tail; the descender matches the ascender's reach above the x-height |
+| `sign_descender` | −180 | Depth of brackets, braces, parentheses, `\|`, `/` and `_` |
 | `corner` | 50 | Radius used to round every skeleton vertex |
 | `gap` | 110 | Space between a stroke and a floating detail |
 | `spacing`, `word_spacing` | 1.5, 1.0 | Side bearings and space width |
@@ -98,7 +99,7 @@ from pathlib import Path
 
 from rotulo import DISPLAY, build_font
 
-print(build_font(replace(DISPLAY, weight=60), "Medium", 400, Path("build")))
+print(build_font(replace(DISPLAY, weight=70), "Medium", 400, Path("build")))
 ```
 
 ## Known limitations
