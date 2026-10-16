@@ -22,7 +22,7 @@ def add_symbols(ctx: Context) -> None:
         ctx.cap,
         ctx.xh,
         ctx.asc,
-        ctx.desc,
+        ctx.sign_desc,
         ctx.o,
         ctx.dot_len,
         ctx.dv,

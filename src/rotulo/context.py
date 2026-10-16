@@ -37,6 +37,7 @@ class Context:
         self.cap = p.cap_height
         self.asc = p.ascender
         self.desc = p.descender
+        self.sign_desc = p.sign_descender
         self.w = p.weight
         self.o = self.xh * p.overshoot / 100
         self.gap = p.gap

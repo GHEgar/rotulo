@@ -34,7 +34,7 @@ def add_figures(ctx: Context) -> None:
         ctx.cap,
         ctx.xh,
         ctx.asc,
-        ctx.desc,
+        ctx.sign_desc,
         ctx.o,
         ctx.w,
         ctx.gap,

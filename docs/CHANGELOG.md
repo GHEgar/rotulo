@@ -5,6 +5,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Cambiado
+
+- Las colas descendentes (`g`, `j`, `p`, `q`, `y`) bajan lo mismo que suben las ascendentes sobre la
+  altura x: descendente −415 en Display y −370 en Lectura. Corchetes, llaves, paréntesis, `|`, `/` y `_`
+  conservan la profundidad de −180.
+
 ## [0.2.0] - 2026-10-16
 
 ### Cambiado

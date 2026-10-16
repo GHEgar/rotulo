@@ -14,7 +14,8 @@ class Params:
     x_height: float = 425
     cap_height: float = 700
     ascender: float = 840
-    descender: float = -180
+    descender: float = -415
+    sign_descender: float = -180
     width: float = 1.0
     aperture: float = 30
     gap: float = 110
@@ -45,6 +46,7 @@ READING = replace(
     DISPLAY,
     weight=75,
     x_height=470,
+    descender=-370,
     spacing=1.8,
     word_spacing=1.6,
     l_form="tail",
