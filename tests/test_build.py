@@ -1,3 +1,4 @@
+from dataclasses import replace
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
@@ -41,15 +42,20 @@ def test_reading_font_has_kerning_and_alternates(tmp_path: Path) -> None:
     assert font["hmtx"]["i"][0] > 0
 
 
-def test_display_font_has_color_details_alternates_and_hinting(tmp_path: Path) -> None:
+def test_display_font_is_one_color_with_alternates_and_hinting(tmp_path: Path) -> None:
     font = TTFont(build_font(DISPLAY, "Display", 200, tmp_path))
-    layers = font["COLR"].ColorLayers
-    assert [layer.colorID for layer in layers["i"]] == [0xFFFF, 0]
-    assert len(font["CPAL"].palettes) == 2
+    assert "COLR" not in font
     tags = [r.FeatureTag for r in font["GSUB"].table.FeatureList.FeatureRecord]
     assert "ss01" in tags
     assert {"l.ss01", "q.ss01", "one.ss01", "nine.ss01"} <= set(font.getGlyphOrder())
     assert "fpgm" in font
+
+
+def test_color_details_are_an_option(tmp_path: Path) -> None:
+    font = TTFont(build_font(replace(DISPLAY, color_details=True), "Color", 200, tmp_path))
+    layers = font["COLR"].ColorLayers
+    assert [layer.colorID for layer in layers["i"]] == [0xFFFF, 0]
+    assert len(font["CPAL"].palettes) == 2
 
 
 def test_variable_font_interpolates_every_glyph(tmp_path: Path) -> None:

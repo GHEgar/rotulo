@@ -10,7 +10,7 @@ from rotulo.params import Params
 from rotulo.spacing import kerning
 
 FAMILY = "Rotulo"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 LICENSE = "This Font Software is licensed under the SIL Open Font License, Version 1.1."
 LICENSE_URL = "https://openfontlicense.org"
 DETAIL_LIGHT = (0x3D / 255, 0x8A / 255, 0x8F / 255, 1.0)

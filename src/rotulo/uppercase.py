@@ -84,38 +84,55 @@ def add_uppercase(ctx: Context) -> None:
         [pen().m(ew, cap).l(0, cap).l(0, 0), pen().m(0, cap / 2).l(ew * 0.7, cap / 2)],
     )
     gw = cap * 0.92
-    lo, hi = 10.0, (cap / 2 + o) * 0.49
-    for _ in range(40):
-        r = (lo + hi) / 2
-        if ctx.bar_fillet(gw / 2, cap / 2, gw / 2, cap / 2 + o, cap / 2, r, -1).c[0] > gw * 0.6:
-            lo = r
-        else:
-            hi = r
-    gr = (lo + hi) / 2
-    gf = ctx.bar_fillet(gw / 2, cap / 2, gw / 2, cap / 2 + o, cap / 2, gr, -1)
-    gx = gf.c[0] + gr
-    top = cap + o
-    d(
-        "G",
-        gx,
-        "o",
-        "o",
-        [
-            pen()
-            .m(gx, top - cap * p.lift_g)
-            .c(
-                gx - (gx - gw / 2) * 0.2,
-                top - cap * p.lift_g * 0.35,
-                gw / 2 + (gx - gw / 2) * 0.55,
-                top,
-                gw / 2,
-                top,
-            )
-            .a(gw / 2, cap / 2, gw / 2, cap / 2 + o, 90, 360 + gf.th)
-            .a(gf.c[0], gf.c[1], gr, gr, gf.phi, 90)
-        ],
-        ax=gw / 2,
-    )
+    if p.g_form == "bar":
+        gb = min(max(p.corner * 0.6, 1.0), cap * 0.2)
+        gbf = ctx.bar_fillet(gw / 2, cap / 2, gw / 2, cap / 2 + o, cap / 2, gb, -1)
+        d(
+            "G",
+            gw,
+            "o",
+            "o",
+            [
+                pen()
+                .a(gw / 2, cap / 2, gw / 2, cap / 2 + o, ap, 360 + gbf.th)
+                .a(gbf.c[0], gbf.c[1], gb, gb, gbf.phi, 90)
+                .l(gw * 0.55, cap / 2)
+            ],
+            ax=gw / 2,
+        )
+    else:
+        lo, hi = 10.0, (cap / 2 + o) * 0.49
+        for _ in range(40):
+            r = (lo + hi) / 2
+            if ctx.bar_fillet(gw / 2, cap / 2, gw / 2, cap / 2 + o, cap / 2, r, -1).c[0] > gw * 0.6:
+                lo = r
+            else:
+                hi = r
+        gr = (lo + hi) / 2
+        gf = ctx.bar_fillet(gw / 2, cap / 2, gw / 2, cap / 2 + o, cap / 2, gr, -1)
+        gx = gf.c[0] + gr
+        top = cap + o
+        d(
+            "G",
+            gx,
+            "o",
+            "o",
+            [
+                pen()
+                .m(gx, top - cap * p.lift_g)
+                .c(
+                    gx - (gx - gw / 2) * 0.2,
+                    top - cap * p.lift_g * 0.35,
+                    gw / 2 + (gx - gw / 2) * 0.55,
+                    top,
+                    gw / 2,
+                    top,
+                )
+                .a(gw / 2, cap / 2, gw / 2, cap / 2 + o, 90, 360 + gf.th)
+                .a(gf.c[0], gf.c[1], gr, gr, gf.phi, 90)
+            ],
+            ax=gw / 2,
+        )
     hw = cap * 0.72
     d(
         "H",

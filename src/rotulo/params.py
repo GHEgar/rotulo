@@ -5,21 +5,22 @@ Dot = Literal["round", "line", "slant"]
 AForm = Literal["tail", "single", "double"]
 LForm = Literal["straight", "tail"]
 ZeroForm = Literal["slash", "dot", "plain"]
+GForm = Literal["bar", "curl"]
 
 
 @dataclass(frozen=True)
 class Params:
-    weight: float = 29
-    x_height: float = 420
+    weight: float = 40
+    x_height: float = 425
     cap_height: float = 700
-    ascender: float = 800
-    descender: float = -260
+    ascender: float = 840
+    descender: float = -180
     width: float = 1.0
-    aperture: float = 70
+    aperture: float = 30
     gap: float = 110
-    spacing: float = 1.56
+    spacing: float = 1.5
     word_spacing: float = 1.0
-    corner: float = 70
+    corner: float = 50
     overshoot: float = 0
     bar: float = 0.5
     tail: float = 1.15
@@ -32,6 +33,8 @@ class Params:
     a_form: AForm = "tail"
     l_form: LForm = "straight"
     zero: ZeroForm = "slash"
+    g_form: GForm = "bar"
+    color_details: bool = False
     q_bar: bool = False
     one_flag: bool = False
     nine_straight: bool = False

@@ -13,14 +13,3 @@
     font-style: normal;
     font-display: swap;
 }
-
-@font-palette-values --rotulo-dark {
-    font-family: 'Rotulo', 'Rotulo Lectura';
-    base-palette: 1;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        font-palette: --rotulo-dark;
-    }
-}

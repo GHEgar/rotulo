@@ -5,9 +5,20 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.2.0] - 2026-10-16
+
 ### Cambiado
 
+- Proporciones y formas revisadas para que se lea menos infantil: altura x 425, ascendentes 840,
+  descendentes −180, esquinas con radio 50, aperturas a 30° y espaciado 1.5.
+- El peso de Display pasa de 29 a 40; el eje variable va de 40 (200) a 106 (700) y conserva 75 en 500.
+- La `G` vuelve a llevar barra; la enroscada queda como `g_form="curl"`.
+- Las fuentes son de un solo color; el detalle a color queda como `color_details=True`.
 - El paquete npm se llama `rotulo`, sin scope; `@npmegar/rotulo` queda deprecado.
+
+### Eliminado
+
+- La paleta oscura automática de la hoja de estilos: sin capas de color ya no aplica.
 
 ## [0.1.1] - 2026-10-15
 

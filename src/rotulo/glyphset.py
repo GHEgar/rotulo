@@ -74,7 +74,9 @@ class GlyphSet:
         self.advances[name] = round(advance)
 
 
-def collect(params: Params, draw: Draw = tt_glyph, color: bool = True) -> GlyphSet:
+def collect(params: Params, draw: Draw = tt_glyph, color: bool | None = None) -> GlyphSet:
+    if color is None:
+        color = params.color_details
     ctx = build_context(params)
     gs = GlyphSet(ctx)
     gs.add(".notdef", notdef(), 500)

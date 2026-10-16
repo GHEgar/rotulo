@@ -8,8 +8,7 @@ Monoline typeface generated from skeletons: strokes of lines and arcs expanded w
 
 Every letter is a skeleton of straight lines and arcs drawn in code, never a hand-drawn outline. The
 generator expands each skeleton with a round pen and writes TrueType and WOFF2 fonts. Weight is the
-pen width, so the family is a variable font from 200 to 700. Floating details (dots, accents, the zero
-slash, punctuation) are a second color layer. A reading cut, **Lectura**, adds weight, spacing and
+pen width, so the family is a variable font from 200 to 700. A reading cut, **Lectura**, adds weight, spacing and
 letters that are hard to mirror.
 
 ## Install
@@ -55,16 +54,9 @@ python -m rotulo --out build --web build/web
 
 ## Color details
 
-Dots, accents, the zero slash and punctuation sit on a color layer (COLR/CPAL). The body takes the text
-color; the detail takes the palette color. Renderers without color fonts draw the whole letter in the
-text color.
-
-| Palette | Detail color | CSS |
-|---|---|---|
-| 0, any background | `#3d8a8f` | default; readable on light and dark |
-| 1, dark backgrounds | `#7fb7b5` | `font-palette: --rotulo-dark`; the stylesheet applies it under `prefers-color-scheme: dark` |
-
-Override the detail color with `@font-palette-values` and `override-colors: 0 <color>`.
+The fonts are one color. Built with `color_details=True`, dots, accents, the zero slash and punctuation
+move to a color layer (COLR/CPAL): the body takes the text color and the detail a palette color,
+`#3d8a8f` by default and `#7fb7b5` on dark backgrounds (`base-palette: 1`).
 
 ## Reading forms
 
@@ -90,12 +82,12 @@ flag on `1` and a straight `9`.
 
 | Field | Default | What it controls |
 |---|---|---|
-| `weight` | 29 | Pen width |
-| `x_height`, `cap_height` | 420, 700 | Body and capital heights |
-| `ascender`, `descender` | 800, −260 | Shared by every letter with a tail |
-| `corner` | 70 | Radius used to round every skeleton vertex |
+| `weight` | 40 | Pen width |
+| `x_height`, `cap_height` | 425, 700 | Body and capital heights |
+| `ascender`, `descender` | 840, −180 | Shared by every letter with a tail |
+| `corner` | 50 | Radius used to round every skeleton vertex |
 | `gap` | 110 | Space between a stroke and a floating detail |
-| `spacing`, `word_spacing` | 1.56, 1.0 | Side bearings and space width |
+| `spacing`, `word_spacing` | 1.5, 1.0 | Side bearings and space width |
 | `narrow_air` | 0.3 | Extra room around narrow letters such as `i`, `l`, `t` |
 
 ```python
@@ -104,7 +96,7 @@ from pathlib import Path
 
 from rotulo import DISPLAY, build_font
 
-print(build_font(replace(DISPLAY, weight=50), "Medium", 400, Path("build")))
+print(build_font(replace(DISPLAY, weight=60), "Medium", 400, Path("build")))
 ```
 
 ## Known limitations
@@ -112,8 +104,6 @@ print(build_font(replace(DISPLAY, weight=50), "Medium", 400, Path("build")))
 - Latin script: Spanish, Portuguese, French and Catalan, figures and common symbols.
 - The variable font keeps overlapping strokes and is not hinted; use the static files at small sizes
   on Windows.
-- Detail colors need COLR support. Safari, Chrome, Firefox and Windows render them; older renderers draw
-  one color.
 
 ## Development
 
@@ -125,7 +115,7 @@ ruff check src tests && ruff format --check src tests
 mypy
 ```
 
-The tests build every font and check heights against the skeleton, kerning, color layers, `ss01`,
+The tests build every font and check heights against the skeleton, kerning, the optional color layers, `ss01`,
 hinting and that the variable font interpolates every glyph.
 
 ## Contributing
