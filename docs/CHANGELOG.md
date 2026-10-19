@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Agregado
+
+- Glifos SDF en PBF para MapLibre en el paquete npm (`glyphs/{fontstack}/{range}.pbf`): `Rotulo Regular`,
+  `Rotulo Medium`, `Rotulo SemiBold` y `Rotulo Bold`, solo en los rangos que cubre la fuente.
+- `--map` en el generador: escribe los pesos 400, 500, 600 y 700 de la variable como TTF estáticas sin
+  solapes, la fuente de los glifos.
+
 ## [0.3.0] - 2026-10-16
 
 ### Cambiado

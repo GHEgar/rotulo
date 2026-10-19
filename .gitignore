@@ -12,3 +12,5 @@ web/README.md
 web/LICENSE
 demo/fonts
 demo/rotulo.css
+web/glyphs
+web/node_modules

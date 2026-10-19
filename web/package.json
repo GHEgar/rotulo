@@ -8,7 +8,9 @@
         "monoline",
         "cartography",
         "map-labels",
-        "woff2"
+        "woff2",
+        "maplibre",
+        "glyphs"
     ],
     "license": "OFL-1.1",
     "author": "Edgar Villarreal",
@@ -28,12 +30,20 @@
             "default": "./rotulo.css"
         },
         "./rotulo.css": "./rotulo.css",
-        "./fonts/*": "./fonts/*"
+        "./fonts/*": "./fonts/*",
+        "./glyphs/*": "./glyphs/*"
     },
     "files": [
         "rotulo.css",
         "index.d.ts",
-        "fonts"
+        "fonts",
+        "glyphs"
     ],
-    "types": "./index.d.ts"
+    "types": "./index.d.ts",
+    "scripts": {
+        "glyphs": "node glyphs.mjs ../build/map glyphs"
+    },
+    "devDependencies": {
+        "fontnik": "0.7.7"
+    }
 }

@@ -24,7 +24,7 @@ jobs:
           js=$(python -c "import json; print(json.load(open('web/package.json'))['version'])")
           [ "v$py" = "$GITHUB_REF_NAME" ] && [ "v$js" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME, pyproject $py, package.json $js"; exit 1; }
       - run: python -m pip install .
-      - run: python -m rotulo --out build --web web/fonts
+      - run: python -m rotulo --out build --web web/fonts --map build/map
       - name: Release notes from the changelog
         run: awk -v v="${GITHUB_REF_NAME#v}" 'index($0, "## [" v "]") == 1 { on = 1; next } on && /^## \[/ { exit } on' docs/CHANGELOG.md > notes.md
       - name: GitHub release
@@ -39,6 +39,9 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
       - run: npm install -g npm@^11.5.1
+      - name: Glyph PBFs
+        working-directory: web
+        run: npm ci && npm run glyphs
       - name: npm
         working-directory: web
         env:

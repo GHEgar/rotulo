@@ -67,3 +67,20 @@ def test_variable_font_interpolates_every_glyph(tmp_path: Path) -> None:
     order = font.getGlyphOrder()
     outlined = [n for n in order if font["glyf"][n].numberOfContours > 0]
     assert all(n in font["gvar"].variations for n in outlined)
+
+
+def test_map_instances_are_static_named_weights(tmp_path: Path) -> None:
+    from rotulo.instances import MAP_WEIGHTS, build_instances
+    from rotulo.variable import build_variable
+
+    variable = build_variable(tmp_path)
+    paths = build_instances(variable, tmp_path / "map")
+    assert [p.stem for p in paths] == [f"Rotulo-{style}" for style in MAP_WEIGHTS]
+    cmap = TTFont(variable).getBestCmap()
+    for path, (style, weight) in zip(paths, MAP_WEIGHTS.items(), strict=True):
+        font = TTFont(path)
+        assert "fvar" not in font
+        assert font["OS/2"].usWeightClass == weight
+        assert font["name"].getDebugName(4) == f"Rotulo {style}"
+        assert font.getBestCmap() == cmap
+        assert font["glyf"]["o"].numberOfContours == 2

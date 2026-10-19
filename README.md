@@ -22,7 +22,7 @@ pip install rotulo
 
 | Package | What it is | Needs |
 |---|---|---|
-| `rotulo` (npm) | WOFF2 files and a stylesheet with the `@font-face` rules | A bundler that resolves CSS imports, or a plain `<link>` |
+| `rotulo` (npm) | WOFF2 files, a stylesheet with the `@font-face` rules and SDF glyphs for MapLibre | A bundler that resolves CSS imports, or a plain `<link>` |
 | `rotulo` (PyPI) | The generator: builds every font from the skeletons | Python 3.12 or later |
 
 The TTF files are attached to each [GitHub release](https://github.com/GHEgar/rotulo/releases).
@@ -71,6 +71,46 @@ flag on `1` and a straight `9`.
 }
 ```
 
+## Map labels in MapLibre
+
+MapLibre GL JS draws labels from signed distance field glyphs in protobuf, one file per range of 256
+code points. The npm package ships them in `glyphs/`, one fontstack per weight of the variable font:
+
+| Fontstack | Weight |
+|---|---|
+| `Rotulo Regular` | 400 |
+| `Rotulo Medium` | 500 |
+| `Rotulo SemiBold` | 600 |
+| `Rotulo Bold` | 700 |
+
+Only the ranges the font covers are built: `0-255` and `8192-8447`. Serve the folder next to the app,
+for example by copying `node_modules/rotulo/glyphs` into your public directory, and point the style at it:
+
+```js
+const map = new maplibregl.Map({
+    container: 'map',
+    style: {
+        version: 8,
+        glyphs: '/glyphs/{fontstack}/{range}.pbf',
+        sources: {},
+        layers: [],
+    },
+});
+
+map.addLayer({
+    id: 'places',
+    type: 'symbol',
+    source: 'places',
+    layout: {
+        'text-field': ['get', 'name'],
+        'text-font': ['Rotulo Medium'],
+    },
+});
+```
+
+Each fontstack holds one font: list a single name in `text-font`. Characters outside the covered
+ranges, such as Cyrillic, are drawn with a local font instead (checked with MapLibre GL JS 6.15).
+
 ## Using the fonts outside the web
 
 | Where | How |
@@ -118,11 +158,20 @@ ruff check src tests && ruff format --check src tests
 mypy
 ```
 
+The glyphs come from static instances of the variable font, rendered with
+[fontnik](https://github.com/mapbox/node-fontnik), which ships prebuilt binaries:
+
+```bash
+python -m rotulo --out build --map build/map
+cd web && npm ci && npm run glyphs
+```
+
 The demo in `demo/` is a static specimen: build the fonts into it with
 `python -m rotulo --out build --web demo/fonts && cp web/rotulo.css demo/` and serve the folder.
 
 The tests build every font and check heights against the skeleton, kerning, the optional color layers, `ss01`,
-hinting and that the variable font interpolates every glyph.
+hinting, that the variable font interpolates every glyph and that the map weights are static instances
+with the same characters.
 
 ## Contributing
 
