@@ -6,6 +6,8 @@ WEB_NAMES = {
     "Rotulo-Variable.ttf": "Rotulo-Variable.woff2",
     "Rotulo-Display.ttf": "Rotulo-Display.woff2",
     "Rotulo-Lectura.ttf": "Rotulo-Lectura.woff2",
+    "RotuloSans-Variable.ttf": "RotuloSans-Variable.woff2",
+    "RotuloSans-Medium.ttf": "RotuloSans-Medium.woff2",
 }
 
 

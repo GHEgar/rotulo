@@ -50,7 +50,11 @@ def _compatible(sets: list[GlyphSet]) -> None:
 
 
 def build_variable(
-    out: Path, light: Params = DISPLAY, middle_weight: float = 86, heavy_weight: float = 122
+    out: Path,
+    light: Params = DISPLAY,
+    middle_weight: float = 86,
+    heavy_weight: float = 122,
+    family: str = FAMILY,
 ) -> Path:
     masters = [light, replace(light, weight=heavy_weight)]
     sets = [collect(p, draw=capsules) for p in masters]
@@ -68,12 +72,12 @@ def build_variable(
     )
     for params, gs, style in zip(masters, sets, ("Display", "Heavy"), strict=True):
         source = SourceDescriptor()
-        source.font = font_builder(params, style, 200, gs).font
+        source.font = font_builder(params, style, 200, gs, family).font
         source.location = {"Weight": params.weight}
         source.styleName = style
         doc.addSource(source)
     font, _, _ = build(doc)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{FAMILY}-Variable.ttf"
+    path = out / f"{family.replace(' ', '')}-Variable.ttf"
     font.save(str(path))
     return path

@@ -11,7 +11,8 @@ Monoline typeface generated from skeletons: strokes of lines and arcs expanded w
 Every letter is a skeleton of straight lines and arcs drawn in code, never a hand-drawn outline. The
 generator expands each skeleton with a round pen and writes TrueType and WOFF2 fonts. Weight is the
 pen width, so the family is a variable font from 200 to 700. A reading cut, **Lectura**, adds weight, spacing and
-letters that are hard to mirror.
+letters that are hard to mirror. **Rotulo Sans** is a sober companion for headings and interfaces, built
+by the same engine.
 
 ## Install
 
@@ -40,6 +41,12 @@ body {
 .reading {
     font-family: 'Rotulo Lectura', 'Rotulo', sans-serif;
 }
+
+h2,
+nav {
+    font-family: 'Rotulo Sans', system-ui, sans-serif;
+    font-weight: 500;
+}
 ```
 
 ```bash
@@ -53,6 +60,13 @@ python -m rotulo --out build --web build/web
 | `Rotulo` | `Rotulo-Variable.woff2`, `.ttf` | 200 to 700 | Map labels, interface, titles |
 | `Rotulo` | `Rotulo-Display.ttf` | 200, static and hinted | Renderers without variable fonts, such as GeoServer or PDF libraries |
 | `Rotulo Lectura` | `Rotulo-Lectura.woff2`, `.ttf` | 500, static and hinted | Long reading |
+| `Rotulo Sans` | `RotuloSans-Variable.woff2`, `.ttf` | 200 to 700 | Headings and interface |
+| `Rotulo Sans` | `RotuloSans-Medium.woff2`, `.ttf` | 500, static and hinted | Renderers without variable fonts |
+
+Rotulo Sans keeps the grammar of lines and arcs but trades the playful shapes for neutral ones: rounds
+are stadiums, capitals and ascenders share one height, descenders drop as far as ascenders rise above
+the x-height, every letter gets the same gap, and figures are tabular. It keeps a few Rotulo details:
+the tailed `a`, the flicked `d` and the slashed zero.
 
 ## Color details
 
@@ -142,9 +156,19 @@ from rotulo import DISPLAY, build_font
 print(build_font(replace(DISPLAY, weight=70), "Medium", 400, Path("build")))
 ```
 
+`SANS` holds the Rotulo Sans cut; its letter shapes live in `Sans` (`width`, `cap_width`, `aperture_e`,
+`stadium`, `a_form`, `d_form`, `t_form`, `t_height`, `m_vertex`):
+
+```python
+from rotulo import SANS, build_font
+
+print(build_font(SANS, "Medium", 500, Path("build"), family="Rotulo Sans"))
+```
+
 ## Known limitations
 
 - Latin script: Spanish, Portuguese, French and Catalan, figures and common symbols.
+- Rotulo Sans draws its own letters and figures; punctuation, symbols and accents come from Rotulo.
 - The variable font keeps overlapping strokes and is not hinted; use the static files at small sizes
   on Windows.
 

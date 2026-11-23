@@ -3,6 +3,18 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado con
 [SemVer](https://semver.org/lang/es/).
 
+## [0.5.0] - 2026-11-23
+
+### Agregado
+
+- Familia **Rotulo Sans**: sans sobria para títulos y UI, generada con el mismo motor de esqueletos.
+  Redondas en estadio (rectas con arcos), remates redondos, tres alturas compartidas (mayúsculas y
+  ascendentes a 700, altura x a 500 y descendentes a −200), mismo hueco entre letras, `a` con cola,
+  `d` con remate, `t` con gancho, cifras tabulares y cero con barra. Signos y acentos de Rotulo.
+- `RotuloSans-Variable` (peso 200 a 700, trazo de 55 a 125, 90 en el 500) y `RotuloSans-Medium`
+  estática con hinting, en TTF y WOFF2; `@font-face` de `'Rotulo Sans'` en `rotulo.css`.
+- `SANS` y `Sans` en la API de Python, y el argumento `family` en `build_font` y `build_variable`.
+
 ## [0.4.0] - 2026-10-19
 
 ### Agregado

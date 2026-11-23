@@ -6,6 +6,22 @@ AForm = Literal["tail", "single", "double"]
 LForm = Literal["straight", "tail"]
 ZeroForm = Literal["slash", "dot", "plain"]
 GForm = Literal["bar", "curl"]
+SansA = Literal["tail", "single", "double"]
+SansD = Literal["flick", "straight"]
+SansT = Literal["hook", "straight"]
+
+
+@dataclass(frozen=True)
+class Sans:
+    width: float = 0.8
+    cap_width: float = 0.99
+    aperture_e: float = 50
+    stadium: bool = True
+    a_form: SansA = "tail"
+    d_form: SansD = "flick"
+    t_form: SansT = "hook"
+    t_height: float = 1.0
+    m_vertex: float = 0.5
 
 
 @dataclass(frozen=True)
@@ -39,6 +55,7 @@ class Params:
     q_bar: bool = False
     one_flag: bool = False
     nine_straight: bool = False
+    sans: Sans | None = None
 
 
 DISPLAY = Params()
@@ -53,4 +70,19 @@ READING = replace(
     q_bar=True,
     one_flag=True,
     nine_straight=True,
+)
+SANS = replace(
+    DISPLAY,
+    weight=90,
+    x_height=500,
+    cap_height=700,
+    ascender=700,
+    descender=-200,
+    spacing=1.0,
+    narrow_air=0,
+    overshoot=0,
+    aperture=50,
+    corner=0,
+    dot="round",
+    sans=Sans(),
 )

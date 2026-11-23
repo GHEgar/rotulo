@@ -3,7 +3,7 @@ from pathlib import Path
 
 from fontTools.ttLib import TTFont
 
-from rotulo import DISPLAY, READING, build_context, build_font
+from rotulo import DISPLAY, READING, SANS, build_context, build_font
 from rotulo.glyphset import glyph_name
 
 SPANISH = "abcdefghijklmnñopqrstuvwxyzáéíóúüABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ0123456789¿?¡!.,:;"
@@ -84,3 +84,35 @@ def test_map_instances_are_static_named_weights(tmp_path: Path) -> None:
         assert font["name"].getDebugName(4) == f"Rotulo {style}"
         assert font.getBestCmap() == cmap
         assert font["glyf"]["o"].numberOfContours == 2
+
+
+def test_sans_covers_spanish_and_extended() -> None:
+    ctx = build_context(SANS)
+    assert set(SPANISH) | set(EXTENDED) <= set(ctx.glyphs)
+
+
+def test_sans_letters_share_three_heights(tmp_path: Path) -> None:
+    font = TTFont(build_font(SANS, "Medium", 500, tmp_path, hint=False, family="Rotulo Sans"))
+    glyf, cmap = font["glyf"], font.getBestCmap()
+    tops = {SANS.x_height, SANS.cap_height}
+    bottoms = {0, SANS.descender}
+    for ch in "abcdefghklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        g = glyf[cmap[ord(ch)]]
+        assert min(abs(g.yMax - t) for t in tops) <= 8, ch
+        assert min(abs(g.yMin - b) for b in bottoms) <= 8, ch
+
+
+def test_sans_figures_are_tabular(tmp_path: Path) -> None:
+    font = TTFont(build_font(SANS, "Medium", 500, tmp_path, hint=False, family="Rotulo Sans"))
+    cmap = font.getBestCmap()
+    assert len({font["hmtx"][cmap[ord(d)]][0] for d in "0123456789"}) == 1
+    assert font["name"].getDebugName(1) == "Rotulo Sans"
+
+
+def test_sans_variable_interpolates(tmp_path: Path) -> None:
+    from rotulo.variable import build_variable
+
+    font = TTFont(build_variable(tmp_path, replace(SANS, weight=55), 90, 125, family="Rotulo Sans"))
+    axis = font["fvar"].axes[0]
+    assert (axis.axisTag, axis.minValue, axis.maxValue) == ("wght", 200, 700)
+    assert font["name"].getDebugName(1) == "Rotulo Sans"

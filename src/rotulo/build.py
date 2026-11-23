@@ -10,7 +10,8 @@ from rotulo.params import Params
 from rotulo.spacing import kerning
 
 FAMILY = "Rotulo"
-VERSION = "0.4.0"
+SANS_FAMILY = "Rotulo Sans"
+VERSION = "0.5.0"
 LICENSE = "This Font Software is licensed under the SIL Open Font License, Version 1.1."
 LICENSE_URL = "https://openfontlicense.org"
 DETAIL_LIGHT = (0x3D / 255, 0x8A / 255, 0x8F / 255, 1.0)
@@ -36,7 +37,9 @@ def features(gs: GlyphSet) -> str:
     return "\n".join(blocks) + "\n"
 
 
-def font_builder(params: Params, style: str, weight_class: int, gs: GlyphSet) -> Any:
+def font_builder(
+    params: Params, style: str, weight_class: int, gs: GlyphSet, family: str = FAMILY
+) -> Any:
     fb = FontBuilder(1000, isTTF=True)
     fb.setupGlyphOrder(gs.order)
     fb.setupCharacterMap(gs.cmap)
@@ -46,13 +49,13 @@ def font_builder(params: Params, style: str, weight_class: int, gs: GlyphSet) ->
     y_max = max(getattr(glyf[n], "yMax", 0) for n in gs.order)
     y_min = min(getattr(glyf[n], "yMin", 0) for n in gs.order)
     fb.setupHorizontalHeader(ascent=y_max, descent=y_min)
-    ps = f"{FAMILY}-{style}"
+    ps = f"{family.replace(' ', '')}-{style}"
     fb.setupNameTable(
         {
-            "familyName": FAMILY,
+            "familyName": family,
             "styleName": style,
             "uniqueFontIdentifier": f"{ps};{VERSION}",
-            "fullName": f"{FAMILY} {style}",
+            "fullName": f"{family} {style}",
             "psName": ps,
             "version": f"Version {VERSION}",
             "licenseDescription": LICENSE,
@@ -84,11 +87,18 @@ def font_builder(params: Params, style: str, weight_class: int, gs: GlyphSet) ->
     return fb
 
 
-def build_font(params: Params, style: str, weight_class: int, out: Path, hint: bool = True) -> Path:
+def build_font(
+    params: Params,
+    style: str,
+    weight_class: int,
+    out: Path,
+    hint: bool = True,
+    family: str = FAMILY,
+) -> Path:
     gs = collect(params)
-    fb = font_builder(params, style, weight_class, gs)
+    fb = font_builder(params, style, weight_class, gs, family)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{FAMILY}-{style}.ttf"
+    path = out / f"{family.replace(' ', '')}-{style}.ttf"
     fb.save(str(path))
     if hint:
         from ttfautohint import ttfautohint

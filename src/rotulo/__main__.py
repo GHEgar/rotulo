@@ -1,9 +1,10 @@
 import argparse
+from dataclasses import replace
 from pathlib import Path
 
-from rotulo.build import build_font
+from rotulo.build import SANS_FAMILY, build_font
 from rotulo.instances import build_instances
-from rotulo.params import DISPLAY, READING
+from rotulo.params import DISPLAY, READING, SANS
 from rotulo.variable import build_variable
 from rotulo.web import to_woff2
 
@@ -19,9 +20,11 @@ def main() -> None:
     args = parser.parse_args()
     for params, style, weight_class in ((DISPLAY, "Display", 200), (READING, "Lectura", 500)):
         print(build_font(params, style, weight_class, args.out))
+    print(build_font(SANS, "Medium", 500, args.out, family=SANS_FAMILY))
     if not args.no_variable:
         variable = build_variable(args.out)
         print(variable)
+        print(build_variable(args.out, replace(SANS, weight=55), 90, 125, family=SANS_FAMILY))
         if args.map:
             for path in build_instances(variable, args.map):
                 print(path)

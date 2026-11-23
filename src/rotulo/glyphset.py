@@ -12,6 +12,7 @@ from rotulo.figures import add_figures
 from rotulo.lowercase import add_lowercase
 from rotulo.outline import tt_glyph
 from rotulo.params import Params
+from rotulo.sans import add_sans
 from rotulo.skeleton import Stroke
 from rotulo.spacing import placement, space_width
 from rotulo.symbols import add_symbols
@@ -29,6 +30,12 @@ def glyph_name(ch: str) -> str:
 
 def build_context(params: Params) -> Context:
     ctx = Context(params)
+    if params.sans is not None:
+        add_figures(ctx)
+        add_symbols(ctx)
+        add_sans(ctx, params.sans)
+        add_accents(ctx)
+        return ctx
     add_lowercase(ctx)
     add_uppercase(ctx)
     add_figures(ctx)
@@ -99,7 +106,7 @@ def collect(params: Params, draw: Draw = tt_glyph, color: bool | None = None) ->
         layers.append((f"{name}.detail", 0))
         gs.layers[name] = layers
     alt = reading_forms(params)
-    if alt != params:
+    if alt != params and params.sans is None:
         actx = build_context(alt)
         for ch in READING_ALTERNATES:
             ag = actx.glyphs[ch]
