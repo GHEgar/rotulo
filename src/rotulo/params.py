@@ -17,11 +17,12 @@ class Sans:
     cap_width: float = 0.99
     aperture_e: float = 50
     stadium: bool = True
-    a_form: SansA = "tail"
-    d_form: SansD = "flick"
+    a_form: SansA = "double"
+    d_form: SansD = "straight"
     t_form: SansT = "hook"
     t_height: float = 1.0
     m_vertex: float = 0.5
+    optical: float = 0.5
 
 
 @dataclass(frozen=True)

@@ -17,6 +17,7 @@ class Glyph:
     strokes: list[Stroke]
     details: list[Stroke]
     ax: float
+    bearings: tuple[float, float] | None = None
 
 
 @dataclass(frozen=True)
@@ -70,9 +71,16 @@ class Context:
         strokes: Sequence[Stroke],
         details: Sequence[Stroke] = (),
         ax: float | None = None,
+        bearings: tuple[float, float] | None = None,
     ) -> None:
         self.glyphs[ch] = Glyph(
-            width, left, right, list(strokes), list(details), width / 2 if ax is None else ax
+            width,
+            left,
+            right,
+            list(strokes),
+            list(details),
+            width / 2 if ax is None else ax,
+            bearings,
         )
 
     def ring(

@@ -8,7 +8,7 @@ def add_accents(ctx: Context) -> None:
 
     def compose(ch: str, base: str, extra: list[Stroke]) -> None:
         b = g[base]
-        ctx.define(ch, b.width, b.left, b.right, b.strokes, [*b.details, *extra], b.ax)
+        ctx.define(ch, b.width, b.left, b.right, b.strokes, [*b.details, *extra], b.ax, b.bearings)
 
     def grave(x: float, y: float) -> Stroke:
         return pen().m(x + xh * 0.06, y).l(x - xh * 0.08, y + xh * 0.18)

@@ -2,12 +2,15 @@ import itertools
 import math
 from collections.abc import Callable
 
+import pathops
+
 from rotulo.context import Context
 from rotulo.outline import outline
 from rotulo.params import Sans
 from rotulo.skeleton import Stroke
 
 Shape = tuple[list[Stroke], list[Stroke]]
+BANDS = 16
 
 
 class Kit:
@@ -97,6 +100,7 @@ class Kit:
         width: float | None = None,
     ) -> None:
         self.shift = 0.0
+        fixed = width is not None
         if width is None:
             strokes, details = draw()
             x0, _, x1, _ = outline([*strokes, *details], self.w, 0).bounds
@@ -104,5 +108,34 @@ class Kit:
             width = x1 - x0 - self.w
         strokes, details = draw()
         center = None if ax is None else ax - self.shift
-        self.ctx.define(ch, width, "h", "h", strokes, details, center)
+        top = self.x if ch.islower() else self.cap
+        bearings = None if fixed else self.bearings(outline(strokes, self.w, 0), width, top)
+        self.ctx.define(ch, width, "h", "h", strokes, details, center, bearings)
         self.shift = 0.0
+
+    def bearings(self, path: pathops.Path, width: float, top: float) -> tuple[float, float]:
+        sb = self.ctx.xh * 0.14 * self.ctx.p.spacing
+        limit = sb * 1.5
+        left = right = 0.0
+        for i in range(BANDS):
+            y0 = top * i / BANDS
+            band = pathops.Path()
+            pen = band.getPen()
+            pen.moveTo((-2000, y0))
+            pen.lineTo((-2000, y0 + top / BANDS))
+            pen.lineTo((4000, y0 + top / BANDS))
+            pen.lineTo((4000, y0))
+            pen.closePath()
+            ink = pathops.op(path, band, pathops.PathOp.INTERSECTION)
+            if ink.area == 0:
+                left += limit
+                right += limit
+                continue
+            x0, _, x1, _ = ink.bounds
+            left += min(x0 + self.h, limit)
+            right += min(width + self.h - x1, limit)
+        k = self.s.optical
+        return (
+            max(sb * 0.3, sb - k * left / BANDS),
+            max(sb * 0.3, sb - k * right / BANDS),
+        )

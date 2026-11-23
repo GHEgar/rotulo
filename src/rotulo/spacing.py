@@ -55,8 +55,9 @@ def narrow_air(ctx: Context, ch: str, glyph: Glyph) -> float:
 
 def placement(ctx: Context, ch: str, glyph: Glyph) -> Placement:
     air = narrow_air(ctx, ch, glyph)
-    dx = side_bearing(ctx, glyph.left) + air + ctx.w / 2
-    advance = dx + glyph.width + ctx.w / 2 + side_bearing(ctx, glyph.right) + air
+    left, right = glyph.bearings or (side_bearing(ctx, glyph.left), side_bearing(ctx, glyph.right))
+    dx = left + air + ctx.w / 2
+    advance = dx + glyph.width + ctx.w / 2 + right + air
     return Placement(dx, advance)
 
 

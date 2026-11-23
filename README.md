@@ -65,8 +65,8 @@ python -m rotulo --out build --web build/web
 
 Rotulo Sans keeps the grammar of lines and arcs but trades the playful shapes for neutral ones: rounds
 are stadiums, capitals and ascenders share one height, descenders drop as far as ascenders rise above
-the x-height, every letter gets the same gap, and figures are tabular. It keeps a few Rotulo details:
-the tailed `a`, the flicked `d` and the slashed zero.
+the x-height, side bearings are measured from each letter's profile so the gaps look even, and figures
+are tabular with a slashed zero.
 
 ## Color details
 
@@ -157,7 +157,7 @@ print(build_font(replace(DISPLAY, weight=70), "Medium", 400, Path("build")))
 ```
 
 `SANS` holds the Rotulo Sans cut; its letter shapes live in `Sans` (`width`, `cap_width`, `aperture_e`,
-`stadium`, `a_form`, `d_form`, `t_form`, `t_height`, `m_vertex`):
+`stadium`, `a_form`, `d_form`, `t_form`, `t_height`, `m_vertex`, `optical`):
 
 ```python
 from rotulo import SANS, build_font
