@@ -135,7 +135,7 @@ def _add_bars(k: Kit, nw: float) -> None:
             [k.pen().m(0, x - h).l(0, desc + h + jr).a(-jr, desc + h + jr, jr, jr, 0, -150)],
             [k.dot(0)],
         ),
-        ax=0,
+        width=0,
     )
 
 
